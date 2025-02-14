@@ -1,5 +1,5 @@
 const Ticket = require('../models/Ticket');
-const Venda = require('../models/Venda'); // Importe o modelo Venda
+const Venda = require('../models/Venda');
 
 // Controlador para realizar a venda de ingressos
 exports.createVenda = async (req, res) => {
@@ -23,7 +23,7 @@ exports.createVenda = async (req, res) => {
 
     // Cria a venda
     const newVenda = new Venda({
-      user: req.user.id, // Associa a venda ao usuário logado
+      user: req.user.id,
       ticket: ticketId,
       quantidade,
       valorTotal: ticket.preco * quantidade,
@@ -34,5 +34,32 @@ exports.createVenda = async (req, res) => {
     res.status(201).json({ message: 'Venda realizada com sucesso' });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao realizar venda' });
+  }
+};
+
+// Controlador para obter as vendas do usuário
+exports.getVendas = async (req, res) => {
+  try {
+    const vendas = await Venda.find({ user: req.user.id }).populate('ticket');
+    res.json(vendas);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter vendas' });
+  }
+};
+
+// Controlador para obter uma venda pelo ID
+exports.getVendaById = async (req, res) => {
+  try {
+    const venda = await Venda.findById(req.params.id).populate('ticket');
+    if (!venda) {
+      return res.status(404).json({ message: 'Venda não encontrada' });
+    }
+    // Verifica se a venda pertence ao usuário autenticado
+    if (venda.user.toString()!== req.user.id) {
+      return res.status(403).json({ message: 'Acesso negado' });
+    }
+    res.json(venda);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter venda' });
   }
 };

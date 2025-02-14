@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Função para gerar o token JWT
 const generateToken = (user) => {
   const payload = {
-    id: user.id,
+    id: user._id,
     nome: user.nome,
     email: user.email,
     admin: user.admin,
@@ -28,7 +28,7 @@ exports.register = async (req, res) => {
     const newUser = new User({
       nome,
       email,
-      senha, // Armazena a senha em texto plano (NÃO RECOMENDADO)
+      senha,
     });
 
     await newUser.save();
@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // Compara a senha fornecida com a senha armazenada (em texto plano)
+    // Compara a senha fornecida com a senha armazenada
     if (senha!== user.senha) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }

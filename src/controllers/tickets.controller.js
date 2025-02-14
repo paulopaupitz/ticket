@@ -48,11 +48,7 @@ exports.updateTicket = async (req, res) => {
     const { nome, preco, quantidade } = req.body;
     const updatedTicket = await Ticket.findByIdAndUpdate(
       req.params.id,
-      {
-        nome,
-        preco,
-        quantidade,
-      },
+      { nome, preco, quantidade },
       { new: true }
     );
     if (!updatedTicket) {

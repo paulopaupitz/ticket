@@ -6,19 +6,22 @@ loginForm.addEventListener('submit', async (event) => {
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  const loginData = { email, senha };
-const response = await fetch('/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(loginData),
-});
+  try {
+    const response = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    localStorage.setItem('token', data.token);
-    window.location.href = '/historico.html';
-  } else {
-    const errorMessage = await response.text();
-    alert(`Erro ao fazer login: ${errorMessage}`);
+    if (response.ok) {
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
+      window.location.href = '/dashboard'; // Redirecionamento corrigido
+    } else {
+      const error = await response.json();
+      alert(`Erro: ${error.message}`);
+    }
+  } catch (error) {
+    console.error('Falha no login:', error);
   }
 });
