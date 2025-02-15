@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', async (event) => {
     if (response.ok) {
       const { token } = await response.json();
       localStorage.setItem('token', token);
-      window.location.href = '/src/views/pages/dashboard.html '; // Redirecionamento corrigido
+      window.location.href = '/dashboard'; // Redirecionamento corrigido
     } else {
       const error = await response.json();
       alert(`Erro: ${error.message}`);

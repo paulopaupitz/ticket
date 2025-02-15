@@ -14,10 +14,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  admin: {
-    type: Boolean,
-    default: false, // Define o valor padrão como false
-  },
 });
 
 const User = mongoose.model('User', UserSchema);

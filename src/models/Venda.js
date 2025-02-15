@@ -19,6 +19,7 @@ const VendaSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  // Adicionando o campo data da venda
   dataVenda: {
     type: Date,
     default: Date.now,

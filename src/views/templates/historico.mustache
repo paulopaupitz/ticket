@@ -1,0 +1,11 @@
+{{#myVendas}}
+<div class="venda-item">
+    <h3>{{ticket.nome}}</h3>
+    <p>Quantidade: {{quantidade}}</p>
+    <p>Total: R$ {{valorTotal}}</p>
+    <p class="data-compra">{{createdAt}}</p>
+</div>
+{{/myVendas}}
+{{^myVendas}}
+<p class="sem-compras">Nenhuma compra registrada</p>
+{{/myVendas}}
