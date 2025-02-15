@@ -1,24 +1,15 @@
-const jwt = require('jsonwebtoken');
+const authenticateToken = require('./auth.middleware');
 
-const authenticateAdmin = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ message: 'Token não fornecido' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Token inválido!' });
+function isAdmin(req, res, next) {
+  authenticateToken(req, res, () => {
+    // Verifica se o usuário autenticado é administrador
+    if (!req.user || !req.user.admin) {
+      return res.status(403).json({
+        mensagem: "Acesso negado. Somente administradores podem acessar esta rota.",
+      });
     }
-
-    if (!user.admin) {
-      return res.status(403).json({ message: 'Acesso negado: privilégios insuficientes' });
-    }
-
-    req.user = user;
-    next();
+    next(); // Permite o acesso se for administrador
   });
-};
+}
 
-module.exports = authenticateAdmin;
+module.exports = isAdmin;

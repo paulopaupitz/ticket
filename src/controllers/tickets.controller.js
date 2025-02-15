@@ -4,16 +4,9 @@ const Ticket = require('../models/Ticket');
 exports.createTicket = async (req, res) => {
   try {
     const { nome, preco, quantidade } = req.body;
-
-    const newTicket = new Ticket({
-      nome,
-      preco,
-      quantidade,
-    });
-
+    const newTicket = new Ticket({ nome, preco, quantidade });
     await newTicket.save();
-
-    res.status(201).json({ message: 'Ingresso criado com sucesso' });
+    res.status(201).json(newTicket);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao criar ingresso' });
   }
