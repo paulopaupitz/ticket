@@ -1,5 +1,2 @@
-#tchau pasta node
-node_modules
-#tchau env
-.env
+/node_modules
 .directory
