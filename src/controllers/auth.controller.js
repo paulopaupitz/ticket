@@ -1,5 +1,8 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+const SALT_ROUNDS = 10;
 
 // Função para gerar o token JWT
 const generateToken = (user) => {
@@ -25,10 +28,12 @@ exports.register = async (req, res) => {
     }
 
     // Cria o novo usuário
+    const hashedPassword = await bcrypt.hash(senha, SALT_ROUNDS);
+
     const newUser = new User({
       nome,
       email,
-      senha,
+      senha: hashedPassword,
     });
 
     await newUser.save();
@@ -51,7 +56,8 @@ exports.login = async (req, res) => {
     }
 
     // Compara a senha fornecida com a senha armazenada
-    if (senha!== user.senha) {
+    const isPasswordValid = await bcrypt.compare(senha, user.senha);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
