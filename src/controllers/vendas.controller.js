@@ -4,6 +4,11 @@ const Venda = require('../models/Venda');
 // Controlador para realizar a venda de ingressos
 exports.createVenda = async (req, res) => {
   try {
+    const { id: userId } = req.user || {};
+    if (!userId) {
+      return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+
     const { ticketId, quantidade } = req.body;
 
     // Verifica se o ingresso existe
@@ -23,7 +28,7 @@ exports.createVenda = async (req, res) => {
 
     // Cria a venda
     const newVenda = new Venda({
-      user: req.user.id,
+      user: userId,
       ticket: ticketId,
       quantidade,
       valorTotal: ticket.preco * quantidade,
@@ -40,7 +45,12 @@ exports.createVenda = async (req, res) => {
 // Controlador para obter as vendas do usuário
 exports.getVendas = async (req, res) => {
   try {
-    const vendas = await Venda.find({ user: req.user.id }).populate('ticket');
+    const { id: userId } = req.user || {};
+    if (!userId) {
+      return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+
+    const vendas = await Venda.find({ user: userId }).populate('ticket');
     res.json(vendas);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao obter vendas' });
@@ -50,12 +60,17 @@ exports.getVendas = async (req, res) => {
 // Controlador para obter uma venda pelo ID
 exports.getVendaById = async (req, res) => {
   try {
+    const { id: userId } = req.user || {};
+    if (!userId) {
+      return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+
     const venda = await Venda.findById(req.params.id).populate('ticket');
     if (!venda) {
       return res.status(404).json({ message: 'Venda não encontrada' });
     }
     // Verifica se a venda pertence ao usuário autenticado
-    if (venda.user.toString()!== req.user.id) {
+    if (venda.user.toString() !== userId) {
       return res.status(403).json({ message: 'Acesso negado' });
     }
     res.json(venda);
