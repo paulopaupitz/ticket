@@ -70,7 +70,7 @@ function renderHistorico(vendas) {
             <h3>${venda.ticket.nome}</h3>
             <p>Quantidade: ${venda.quantidade}</p>
             <p>Total: R$ ${venda.valorTotal}</p>
-            <p class="data-compra">${new Date(venda.createdAt).toLocaleString()}</p>
+            <p class="data-compra">${new Date(venda.dataVenda).toLocaleString()}</p>
         `;
         container.appendChild(item);
     });
