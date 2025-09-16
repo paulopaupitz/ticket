@@ -21,7 +21,7 @@ const usersRoutes = require('./src/routes/users.routes');
 // 2. Configuração do Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src/views/js')));
 
 // 3. Rotas para Páginas HTML Estáticas
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'src/views/pages/register.html')));
