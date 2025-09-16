@@ -1,10 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <title>Ingresso</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Ingresso</title>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .ticket-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .ticket-card {
+      width: min(520px, 100%);
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(30, 64, 175, 0.25);
+    }
+
+    .ticket-card__content {
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ticket-card__header {
+      margin-bottom: 24px;
+    }
+
+    .ticket-card__header h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+    }
+
+    .ticket-card__id {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #6b7280;
+      word-break: break-all;
+    }
+
+    .ticket-card__details {
+      margin: 0;
+      padding: 0;
+    }
+
+    .ticket-card__row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .ticket-card__row:last-of-type {
+      border-bottom: none;
+    }
+
+    .ticket-card__row dt,
+    .ticket-card__row dd {
+      margin: 0;
+    }
+
+    .ticket-card__row dt {
+      flex: 0 0 auto;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .ticket-card__row dd {
+      flex: 1 1 auto;
+      text-align: right;
+      font-weight: 500;
+      color: #1f2937;
+    }
+
+    .ticket-card__row--total {
+      padding-top: 20px;
+      border-bottom: none;
+      font-size: 1.1rem;
+    }
+
+    .ticket-card__row--total dd {
+      font-weight: 700;
+    }
+
+    .ticket-card__loading {
+      margin: 0;
+      color: #6b7280;
+    }
+
+    .ticket-card__back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 32px;
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .ticket-card__back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div id="ingresso-container"></div>
+  <main class="ticket-page">
+    <section class="ticket-card">
+      <div id="ingresso-container" class="ticket-card__content">
+        <p class="ticket-card__loading">Carregando informações do ingresso...</p>
+      </div>
+      <a class="ticket-card__back-link" href="/dashboard">← Voltar para a dashboard</a>
+    </section>
+  </main>
   <script src="/src/views/js/ingresso.js"></script>
 </body>
 </html>
