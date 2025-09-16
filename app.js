@@ -34,7 +34,6 @@ app.use('/auth', authRoutes);
 app.use('/tickets', ticketsRoutes);
 app.use('/vendas', vendasRoutes);
 app.use('/users', usersRoutes);
-app.use('/admin', authenticateToken, isAdmin, require('./src/routes/admin.routes'));
 
 // 5. Rotas de Admin (requer autenticação e verificação de administrador)
 app.use('/admin', authenticateToken, isAdmin, require('./src/routes/admin.routes'));
