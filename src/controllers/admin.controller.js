@@ -47,9 +47,14 @@ exports.atualizarAdminById = async (req, res) => {
 // Controlador para atualizar o próprio administrador logado
 exports.atualizarMyAdmin = async (req, res) => {
   try {
+    const { id: adminId } = req.user || {};
+    if (!adminId) {
+      return res.status(401).json({ message: 'Administrador não autenticado' });
+    }
+
     const { username, password } = req.body;
     const updatedAdmin = await Admin.findByIdAndUpdate(
-      req.user.id,
+      adminId,
       { username, password },
       { new: true }
     );
